@@ -28,3 +28,6 @@
 
  <p>각 테스트 케이스에 대해 P를 출력한다.</p>
 
+### ➕ 추가
+- String을 char가 아닌 String 배열로 변환하려면 ""을 기준으로 split하면 된다: `String.split("")`
+- `String.repeat(n)`: String을 n번 반복해라 즉, 이 함수를 통해 같은 문자 반복
