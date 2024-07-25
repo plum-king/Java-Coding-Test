@@ -17,39 +17,19 @@ public class Main {
         int s = (a*d) + (b*c);
         int p = (b*d);
 
-        int max = 0;
-        int min = 0;
-        if (s > p) {
-            max = s;
-            min = p;
-        }
-        else{
-            max = p;
-            min = s;
-        }
-        int i = 2;
-        while(i <= min){
-            if(max % i == 0 && min % i == 0){
-                min /= i;
-                max /= i;
-                i = 2;
-            }
-            else{
-                i++;
-            }
-        }
-        if (s > p) {
-            s = max;
-            p = min;
-        }
-        else{
-            p = max;
-            s = min;
-        }
+        int gcd = gcd(s, p);
+        s /= gcd;
+        p /= gcd;
 
         bw.write(String.valueOf(s) + " " + String.valueOf(p));
-
         bw.flush();
         bw.close();
+    }
+
+    public static int gcd(int p, int q){
+        if(q == 0) return p;
+        return gcd(q, p % q);
+
+        // ex. 4, 8 넣으면 gcd(4, 0) -> 4
     }
 }
