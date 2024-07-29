@@ -1,7 +1,16 @@
 -- 코드를 작성해주세요
-SELECT e1.ID FROM ECOLI_DATA e1 WHERE e1.PARENT_ID IN (
-    SELECT e2.ID FROM ECOLI_DATA e2 WHERE e2.PARENT_ID IN (
-        SELECT e3.ID FROM ECOLI_DATA e3 WHERE e3.PARENT_ID is NULL
-    )
-) 
-ORDER BY e1.ID;
+SELECT
+    e4.ID
+FROM 
+    (SELECT 
+        e2.ID
+     FROM 
+        ECOLI_DATA e1 
+     INNER JOIN
+        ECOLI_DATA e2 ON e1.ID = e2.PARENT_ID 
+     WHERE 
+        e1.PARENT_ID IS NULL) e3 
+    INNER JOIN 
+        ECOLI_DATA e4 ON e3.ID = e4.PARENT_ID
+ORDER BY 
+    e4.ID
