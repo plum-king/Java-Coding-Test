@@ -10,6 +10,5 @@
 
 3개월 안에 골드 달성✨✨
 
-<br>
-
-[백준 문제풀이 바로가기](https://github.com/plum-king/Java-Coding-Test/tree/main/%EB%B0%B1%EC%A4%80)
+[![Solved.ac프로필](http://mazassumnida.wtf/api/v2/generate_badge?boj=kayo)](https://solved.ac/kayo)
+![mazandi profile](http://mazandi.herokuapp.com/api?handle=kayo&theme=dark)
