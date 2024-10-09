@@ -1,66 +1,52 @@
+import java.util.*;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.StringTokenizer;
 
-public class Main {
-
+class Main {
+    public static ArrayList<ArrayList<Integer>> arr = new ArrayList<>();
     public static int[] visited;
-    public static ArrayList<ArrayList<Integer>> graph = new ArrayList<>();
-
-    // 순서 저장을 위한 변수
-    public static int count = 0;
-
+    public static int cnt = 1;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         StringTokenizer st = new StringTokenizer(br.readLine());
-
+        StringBuilder sb = new StringBuilder();
+        
         int n = Integer.parseInt(st.nextToken());
         int m = Integer.parseInt(st.nextToken());
         int r = Integer.parseInt(st.nextToken());
 
         visited = new int[n+1];
-
-        // 그래프 초기화
+        
         for(int i = 0; i <= n; i++){
-            graph.add(new ArrayList<Integer>());
+            arr.add(new ArrayList<Integer>());
         }
-
-        // 그래프에 값 넣기
+        
         for(int i = 0; i < m; i++){
             st = new StringTokenizer(br.readLine());
-            int a = Integer.parseInt(st.nextToken());
-            int b = Integer.parseInt(st.nextToken());
-
-            graph.get(a).add(b);
-            graph.get(b).add(a);
+            int u = Integer.parseInt(st.nextToken());
+            int v = Integer.parseInt(st.nextToken());
+            arr.get(u).add(v);
+            arr.get(v).add(u);
         }
-
-        // 오름차순 정렬하기 (한 정점에 대해서)
         for(int i = 1; i <= n; i++){
-            Collections.sort(graph.get(i)); // 정점은 1부터 시작하니까..
+            Collections.sort(arr.get(i));
         }
 
-        // dfs
-        count++;
         dfs(r);
-
         for(int i = 1; i < visited.length; i++){
-            bw.write(String.valueOf(visited[i] + "\n" ));
+            sb.append(visited[i]+"\n");
         }
-        bw.flush();
-        bw.close();
+        System.out.println(String.valueOf(sb));
     }
+    
     public static void dfs(int r){
-        visited[r] = count;
-        for(int i = 0; i < graph.get(r).size(); i++){
-            int v = graph.get(r).get(i);
+        visited[r] = cnt;
+        
+        for(int i = 0; i < arr.get(r).size(); i++){
+            int v = arr.get(r).get(i);
             if(visited[v] == 0){
-                count++;
+                cnt++;
                 dfs(v);
             }
         }
     }
-
 }
