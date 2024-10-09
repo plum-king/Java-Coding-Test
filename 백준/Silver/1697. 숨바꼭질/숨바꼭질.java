@@ -1,60 +1,41 @@
-import java.io.*;
 import java.util.*;
+import java.io.*;
 
-public class Main {
-    static int[] visited = new int[100001];
-    static int n;
-    static int k;
+class Main{
+    public static int visited[] = new int[100001];
+    public static int[] da = {1, -1, 2};
+    public static Queue<Integer> queue = new LinkedList<>();
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        n = Integer.parseInt(st.nextToken());
-        k = Integer.parseInt(st.nextToken());
-        
-        if (n == k) {
-            bw.write(String.valueOf(0));
-        }
-        else{
-            // bw.write(String.valueOf(bfs(n)));
-            bfs(n);
-        }
-        bw.flush();
-        br.close();
-        bw.close();
+        int n = Integer.parseInt(st.nextToken());
+        int k = Integer.parseInt(st.nextToken());
+        if(n == k) System.out.println(0);
+        else System.out.println(bfs(n, k));
     }
-
-    static void bfs(int x) {
-        Queue<Integer> queue = new LinkedList<>();
-        queue.add(x);
-        visited[x] = 1;
+    
+    public static int bfs(int n, int k){
+        visited[n] = 1;
+        queue.add(n);
         
-        while (!queue.isEmpty()) {
-            int tmp = queue.poll();
-            
-            for (int i = 0; i < 3; i++) {
-                int next;
+        while(!queue.isEmpty()){
+            int a = queue.poll();
+            for(int i = 0; i < 3; i++){
+                int next_a;
+                if(i == 2) next_a = a * da[i];
+                else next_a = a + da[i];
                 
-                if (i == 0) {
-                    next = tmp + 1;
-                } else if (i == 1) {
-                    next = tmp - 1;
-                } else {
-                    next = tmp * 2;
+                if(next_a == k){
+                    return visited[a];
                 }
                 
-                if (next == k) {
-                    System.out.println(visited[tmp]);
-                    return;
-                    // return visited[tmp];
-                }
-
-                if (next >= 0 && next < visited.length && visited[next] == 0) {
-                    queue.add(next);
-                    visited[next] = visited[tmp] + 1;
+                if(next_a >= 0 && next_a < visited.length && visited[next_a] == 0){
+                    queue.add(next_a);
+                    visited[next_a] = visited[a] + 1;
                 }
             }
         }
+        return -1;
     }
 }
