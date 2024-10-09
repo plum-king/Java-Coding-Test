@@ -2,24 +2,23 @@ import java.util.*;
 
 class Solution {
     public String solution(String[] participant, String[] completion) {
-        
-        ArrayList<String> parti = new ArrayList<>();
-        ArrayList<String> comple = new ArrayList<>();
-        
-        for(int i = 0; i < participant.length; i++) parti.add(participant[i]);
-        for(int i = 0; i < completion.length; i++) comple.add(completion[i]);
-        Collections.sort(parti);
-        Collections.sort(comple);
-        
         String answer = "";
+        HashMap<String, Integer> map = new HashMap<>();
+        for(String pla : participant){
+            map.put(pla, map.getOrDefault(pla, 0)+1);
+        }
+        for(String pla : completion){
+            map.put(pla, map.get(pla) - 1);
+        }
         
-        for(int i = 0; i < comple.size(); i++){
-            if(!(parti.get(i).contains(comple.get(i)))){
-                answer += parti.get(i);
+        Iterator<Map.Entry<String, Integer>> iter = map.entrySet().iterator();
+        while(iter.hasNext()){
+            Map.Entry<String, Integer> entry = iter.next();
+            if(entry.getValue() != 0) {
+                answer = entry.getKey();
                 break;
             }
         }
-        if(answer.length() == 0) answer = parti.get(parti.size()-1);
         return answer;
     }
 }
