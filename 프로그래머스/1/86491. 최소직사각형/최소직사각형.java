@@ -5,45 +5,29 @@ class Solution {
         int answer = 0;
         ArrayList<Integer> ga = new ArrayList<>();
         ArrayList<Integer> se = new ArrayList<>();
-        
         for(int i = 0; i < sizes.length; i++){
             ga.add(sizes[i][0]);
             se.add(sizes[i][1]);
-        }
+        } 
         
-        int ga_max = Collections.max(ga);
-        int se_max = Collections.max(se);
-        int ga_idx = 0;
-        int se_idx = 0;
+        int max_ga = Collections.max(ga);
+        int max_se = Collections.max(se);
+        int idx_ga = ga.indexOf(max_ga);
+        int idx_se = se.indexOf(max_se);
         
-        for(int i = 0; i < ga.size(); i++){
-            if(ga_max == ga.get(i)){
-                ga_idx = i;
+        if(max_ga >= max_se){
+            answer = max_ga;
+            for(int i = 0; i < sizes.length; i++){
+                if(se.get(i) > ga.get(i)) se.set(i, ga.get(i));
             }
-            if(se_max == se.get(i)){
-                se_idx = i;
+            answer *= Collections.max(se);
+        } 
+        else {
+            answer = max_se;
+            for(int i = 0; i < sizes.length; i++){
+                if(ga.get(i) > se.get(i)) ga.set(i, se.get(i));
             }
-        }
-        
-        if(ga_max >= se_max){
-            answer = ga_max;
-            for(int i = 0; i < se.size(); i++){
-                if(ga.get(i) <= se.get(i)){
-                    se.set(i, ga.get(i));
-                }
-            }
-            se_max = Collections.max(se);
-            answer *= se_max;
-        }
-        else{
-            answer = se_max;
-            for(int i = 0; i < ga.size(); i++){
-                if(ga.get(i) >= se.get(i)){
-                    ga.set(i, se.get(i));
-                }
-            }
-            ga_max = Collections.max(ga);
-            answer *= ga_max;
+            answer *= Collections.max(ga);
         }
         
         return answer;
