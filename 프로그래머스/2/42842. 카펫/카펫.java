@@ -1,13 +1,14 @@
 class Solution {
     public int[] solution(int brown, int yellow) {
-        int sum = brown + yellow;
-        int num = (int)Math.sqrt(sum);
         int[] answer = new int[2];
-        for(int i = 3; i <= num; i++){
-            if(sum % i == 0 && (sum / i) >= 3){
-                if((i-2)*((sum/i)-2) == yellow){
-                    answer[0] = sum/i;
-                    answer[1] = i;
+        int tmp = brown + yellow;
+        for(int i = (int)Math.sqrt(tmp); i >= 1; i--){
+            if(tmp % i == 0){
+                int ga = i;
+                int se = tmp / i;
+                if(yellow == (ga-2)*(se-2)){
+                    answer[0] = se;
+                    answer[1] = ga;
                     break;
                 }
             }
