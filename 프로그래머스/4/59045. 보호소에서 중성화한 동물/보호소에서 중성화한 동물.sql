@@ -1,4 +1,10 @@
 -- 코드를 입력하세요
-# SELECT ai.ANIMAL_ID, ai.ANIMAL_TYPE, ai.NAME FROM ANIMAL_INS ai JOIN ANIMAL_OUTS ao ON ai.ANIMAL_ID = ao.ANIMAL_ID WHERE ai.SEX_UPON_INTAKE LIKE "Intact%" and (ao.SEX_UPON_INTAKE LIKE "Spayed%" or ao.SEX_UPON_INTAKE LIKE "Neutered%");
-
-SELECT ai.ANIMAL_ID, ai.ANIMAL_TYPE, ai.NAME FROM ANIMAL_INS ai JOIN ANIMAL_OUTS ao ON ai.ANIMAL_ID = ao.ANIMAL_ID WHERE SEX_UPON_INTAKE LIKE "Intact%" and (SEX_UPON_OUTCOME LIKE "Spayed%" or SEX_UPON_OUTCOME LIKE "Neutered%");
+SELECT ai.ANIMAL_ID, ai.animal_type, ai.name
+from animal_ins ai
+join animal_outs ao
+on ai.animal_id = ao.animal_id
+where ai.animal_id in (select animal_id from animal_ins where SEX_UPON_INTAKE Like 'Intact%')
+and ai.animal_id in 
+(select animal_id from animal_outs where sex_upon_outcome like 'Neutered%' or 
+sex_upon_outcome like 'Spayed%')
+order by animal_id;
