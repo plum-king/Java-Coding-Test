@@ -1,51 +1,34 @@
-import java.io.*;
 import java.util.*;
+import java.io.*;
 
-public class Main {
-
+public class Main{
+    public static int[][] graph;
     public static boolean[] visited;
-    public static ArrayList<ArrayList<Integer>> graph = new ArrayList<>();
-
-    public static int count = 0;
-
+    public static int cnt;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-
         int n = Integer.parseInt(br.readLine());
         int m = Integer.parseInt(br.readLine());
-
+        graph = new int[n+1][n+1];
         visited = new boolean[n+1];
-
-        for(int i = 0; i <= n; i ++){
-            graph.add(new ArrayList<Integer>());
-        }
-
+        StringTokenizer st;
         for(int i = 0; i < m; i++){
-            StringTokenizer st = new StringTokenizer(br.readLine());
+            st = new StringTokenizer(br.readLine());
             int a = Integer.parseInt(st.nextToken());
             int b = Integer.parseInt(st.nextToken());
-            graph.get(a).add(b);
-            graph.get(b).add(a);
+            graph[a][b] = 1;
+            graph[b][a] = 1;
         }
-
-        for(int i = 1; i <= n; i++) Collections.sort(graph.get(i));
-
+        cnt = 0;
         dfs(1);
-        bw.write(String.valueOf(count));
-        bw.flush();
-        bw.close();
+        System.out.println(cnt);
     }
-
-    public static void dfs(int r){
-        visited[r] = true;
-
-        for(int i = 0; i < graph.get(r).size(); i++){
-            int v = graph.get(r).get(i);
-            if(!visited[v]){
-                visited[v] = true;
-                count++;
-                dfs(v);
+    public static void dfs(int v){
+        visited[v] = true;
+        for(int i = 0; i < graph[v].length; i++){
+            if(!visited[i] && graph[v][i] == 1){
+                cnt++;
+                dfs(i);
             }
         }
     }
