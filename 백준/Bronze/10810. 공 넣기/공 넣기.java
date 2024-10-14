@@ -1,31 +1,28 @@
-import java.io.*;
 import java.util.*;
+import java.io.*;
 
-public class Main {
-
-    public static void main(String[] args) throws IOException {
+public class Main{
+    public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-
-        int N = Integer.parseInt(st.nextToken());
-        int M = Integer.parseInt(st.nextToken());
-
-        int[] arr = new int[N];
-        for(int e = 0; e < M; e++){
+        
+        int n = Integer.parseInt(st.nextToken());
+        int m = Integer.parseInt(st.nextToken());
+        
+        int[] arr = new int[n];
+        for(int i = 0; i < m; i++){
             st = new StringTokenizer(br.readLine());
-            int i = Integer.parseInt(st.nextToken());
-            int j = Integer.parseInt(st.nextToken());
-            int k = Integer.parseInt(st.nextToken());
-            for(int f = i-1; f < j; f++){
-                arr[f] = k;
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
+            int c = Integer.parseInt(st.nextToken()); 
+            
+            for(int j = a-1; j < b; j++){
+                arr[j] = c;
             }
         }
-
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        for(int i = 0; i < N; i++){
-            bw.write(String.valueOf(arr[i]) + " ");
+        
+        for(int i = 0; i < n; i++){
+            System.out.print(arr[i] + " ");
         }
-        bw.flush();
-        bw.close();
     }
 }
