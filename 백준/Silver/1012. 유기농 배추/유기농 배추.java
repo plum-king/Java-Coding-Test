@@ -1,57 +1,66 @@
+import java.util.*;
 import java.io.*;
-import java.util.StringTokenizer;
 
-public class Main {
-    static int[] dx = {0, 0, -1, 1};
-    static int[] dy = {1, -1, 0, 0}; // 위, 아래, 왼, 오
-    static int[][] map;
-    static boolean[][] visit;
-    static int n, m, k, count;
-    public static void main(String[] args) throws IOException {
+public class Main{
+    public static int[][] arr;
+    public static boolean[][] visited;
+    public static int[] dx = {1, -1, 0, 0};
+    public static int[] dy = {0, 0, 1, -1};
+    public static int cnt = 0;
+    public static int m, n;
+    public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         int t = Integer.parseInt(br.readLine());
         StringTokenizer st;
+        StringBuilder sb = new StringBuilder();
         for(int i = 0; i < t; i++){
-            count = 0;
             st = new StringTokenizer(br.readLine());
             m = Integer.parseInt(st.nextToken());
             n = Integer.parseInt(st.nextToken());
-            k = Integer.parseInt(st.nextToken());
-
-            map = new int[m][n];
-            visit = new boolean[m][n];
-
+            int k = Integer.parseInt(st.nextToken());
+            arr = new int[m][n];
+            visited = new boolean[m][n];
+            
             for(int j = 0; j < k; j++){
                 st = new StringTokenizer(br.readLine());
                 int a = Integer.parseInt(st.nextToken());
                 int b = Integer.parseInt(st.nextToken());
-                map[a][b] = 1;
+                arr[a][b] = 1;
             }
-
             for(int j = 0; j < m; j++){
                 for(int l = 0; l < n; l++){
-                    if(map[j][l] == 1 && !visit[j][l]){
-                        dfs(j, l);
-                        count++; // 조건에 맞아서 내부로 들어오면 count를 증가하고 해당하는 값과 인접한 곳에 대해서는 dfs 함수를 통해 visit 배열에 값을 넣는다.
+                    if(!visited[j][l] && arr[j][l] == 1){
+                        bfs(j, l);
+                        cnt++;
                     }
                 }
             }
-            bw.write(String.valueOf(count));
-            bw.newLine();
-            bw.flush();
+            sb.append(cnt+"\n");
+            cnt = 0;
         }
-        bw.close();
-    }
+        System.out.println(String.valueOf(sb));
 
-    public static void dfs(int a, int b){
-        visit[a][b] = true;
-        for(int i = 0; i < 4; i++){
-            int next_a = a + dx[i];
-            int next_b = b + dy[i];
-            if(next_b < n && next_a < m && next_b >= 0 && next_a >= 0){
-                if(map[next_a][next_b] == 1 && !visit[next_a][next_b]){
-                    dfs(next_a, next_b);
+    }
+    
+    public static void bfs(int v1, int v2){
+        Queue<int[]> queue = new LinkedList<>();
+        queue.add(new int[]{v1, v2});
+        visited[v1][v2] = true;
+        
+        while(!queue.isEmpty()){
+            int[] tmp = queue.poll();
+            int x = tmp[0];
+            int y = tmp[1];
+            
+            for(int i = 0; i < 4; i++){
+                int next_x = x + dx[i];
+                int next_y = y + dy[i];
+                
+                if(next_x >= 0 && next_y >= 0 && next_x < m && next_y < n){
+                    if(!visited[next_x][next_y] && arr[next_x][next_y] == 1){
+                        queue.add(new int[]{next_x, next_y});
+                        visited[next_x][next_y] = true;
+                    }
                 }
             }
         }
