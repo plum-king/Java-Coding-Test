@@ -1,64 +1,67 @@
-import java.io.*;
 import java.util.*;
+import java.io.*;
 
-public class Main {
-    static int[] dx = {0, 0, 1, -1};
-    static int[] dy = {1, -1, 0, 0};
-    static boolean[][] visited;
-    static int[][] graph;
-    static ArrayList<Integer> answer = new ArrayList<>();
-    static int cnt = 1;
-    public static void main(String[] args) throws IOException {
+public class Main{
+    public static int[][] graph;
+    public static boolean[][] visited;
+    public static int n, cnt;
+    public static int[] dx = {1, -1, 0, 0};
+    public static int[] dy = {0, 0, 1, -1};
+    public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-
-        int t = Integer.parseInt(br.readLine());
-        graph = new int[t][t];
-        visited = new boolean[t][t];
-
-        for(int i = 0; i < t; i++){
+        StringBuilder sb = new StringBuilder();
+        n = Integer.parseInt(br.readLine());
+        ArrayList<Integer> arr = new ArrayList<>();
+        graph = new int[n][n];
+        visited = new boolean[n][n];
+        for(int i = 0; i < n; i++){
             String str = br.readLine();
-            for(int j = 0; j < t; j++){
+            for(int j = 0; j < n; j++){
                 graph[i][j] = Integer.parseInt(String.valueOf(str.charAt(j)));
             }
         }
 
-        for(int i = 0; i < t; i++){
-            for(int j = 0; j < t; j++){
+        cnt = 0;
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < n; j++){
                 if(graph[i][j] == 1 && !visited[i][j]){
-                    dfs(i, j);
-                    answer.add(cnt);
-                    cnt = 1;
+                    bfs(i, j);
+                    arr.add(cnt);
+                    cnt = 0;
                 }
             }
         }
 
-        Collections.sort(answer);
-
-        bw.write(String.valueOf(answer.size()));
-        bw.newLine();
-        for(int i = 0; i < answer.size(); i++){
-            bw.write(String.valueOf(answer.get(i))+ "\n");
+        Collections.sort(arr);
+        System.out.println(arr.size());
+        for(int i = 0; i < arr.size(); i++){
+            System.out.println(arr.get(i));
         }
-        bw.flush();
-
-        bw.close();
     }
 
-    static void dfs(int x, int y){
-        visited[x][y] = true;
-        int next_x, next_y;
-        for(int i = 0; i < 4; i++){
-            next_x = x + dx[i];
-            next_y = y + dy[i];
+    public static void bfs(int a, int b){
+        Queue<int[]> queue = new LinkedList<>();
+        queue.add(new int[]{a, b});
+        visited[a][b] = true;
+        cnt++;
 
-            if(next_x < graph.length && next_y < graph.length && next_y >= 0 && next_x >= 0){
-                if(graph[next_x][next_y] == 1 && !visited[next_x][next_y]){
-                    cnt++;
-                    dfs(next_x, next_y);
+        while(!queue.isEmpty()){
+            int[] tmp = queue.poll();
+            int x = tmp[0];
+            int y = tmp[1];
+
+            for(int i = 0 ; i < 4; i++){
+                int next_x = dx[i] + x;
+                int next_y = dy[i] + y;
+
+                if(next_x >= 0 && next_y >= 0 && next_x < n && next_y < n){
+                    if(!visited[next_x][next_y] && graph[next_x][next_y] == 1){
+                        queue.add(new int[]{next_x, next_y});
+                        visited[next_x][next_y] = true;
+                        cnt++;
+                    }
                 }
             }
         }
     }
-
 }
