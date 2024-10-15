@@ -1,41 +1,41 @@
 import java.util.*;
 import java.io.*;
 
-class Main{
-    public static int visited[] = new int[100001];
-    public static int[] da = {1, -1, 2};
-    public static Queue<Integer> queue = new LinkedList<>();
-
-    public static void main(String[] args) throws IOException {
+public class Main{
+    public static int[] dx = {1, -1, 2};
+    public static int[] visited = new int[100001];
+    public static int k;
+    public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        int n = Integer.parseInt(st.nextToken());
-        int k = Integer.parseInt(st.nextToken());
-        if(n == k) System.out.println(0);
-        else System.out.println(bfs(n, k));
-    }
-    
-    public static int bfs(int n, int k){
-        visited[n] = 1;
-        queue.add(n);
         
+        int n = Integer.parseInt(st.nextToken());
+        k = Integer.parseInt(st.nextToken());
+        
+        bfs(n);
+        System.out.println(visited[k]);
+    }
+    public static void bfs(int n){
+        Queue<Integer> queue = new LinkedList<>();
+        queue.add(n);
         while(!queue.isEmpty()){
-            int a = queue.poll();
+            int x = queue.poll();
+            if(x == k){
+                return;
+            }
+            
             for(int i = 0; i < 3; i++){
-                int next_a;
-                if(i == 2) next_a = a * da[i];
-                else next_a = a + da[i];
+                int next_x;
+                if(i == 2) next_x = x * dx[i];
+                else next_x = x + dx[i];
                 
-                if(next_a == k){
-                    return visited[a];
-                }
-                
-                if(next_a >= 0 && next_a < visited.length && visited[next_a] == 0){
-                    queue.add(next_a);
-                    visited[next_a] = visited[a] + 1;
+                if(next_x < visited.length && next_x >= 0){
+                    if(visited[next_x] == 0){
+                        queue.add(next_x);
+                        visited[next_x] = visited[x] + 1;
+                    }
                 }
             }
         }
-        return -1;
     }
 }
