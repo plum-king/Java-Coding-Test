@@ -2,30 +2,27 @@ import java.util.*;
 
 class Solution {
     public static boolean[] visited;
-    ArrayList<String> allRoute;
-    
+    public static ArrayList<String> arr = new ArrayList<>();
     public String[] solution(String[][] tickets) {
         String[] answer = {};
-        int cnt = 0;
         visited = new boolean[tickets.length];
-        allRoute = new ArrayList<>();
+        dfs(tickets, "ICN", "ICN", 0);
         
-        dfs("ICN", "ICN", tickets, cnt);
-        
-        Collections.sort(allRoute);
-        answer = allRoute.get(0).split(" ");
+        Collections.sort(arr);
+        answer = arr.get(0).split(" ");
         return answer;
     }
     
-    public void dfs(String start, String route, String[][] tickets, int cnt){
+    public static void dfs(String[][] tickets, String route, String nation, int cnt){
         if(cnt == tickets.length){
-            allRoute.add(route);
+            arr.add(route);
             return;
         }
+        
         for(int i = 0; i < tickets.length; i++){
-            if(start.equals(tickets[i][0]) && !visited[i]){
+            if(tickets[i][0].equals(nation) && !visited[i]){
                 visited[i] = true;
-                dfs(tickets[i][1], route+" "+tickets[i][1], tickets, cnt+1);
+                dfs(tickets, route + " " + tickets[i][1], tickets[i][1], cnt+1);
                 visited[i] = false;
             }
         }
