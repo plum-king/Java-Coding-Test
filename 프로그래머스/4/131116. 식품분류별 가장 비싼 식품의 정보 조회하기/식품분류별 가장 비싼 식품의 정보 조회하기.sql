@@ -1,11 +1,7 @@
 -- 코드를 입력하세요
-SELECT tmp.CATEGORY, tmp.MAX_PRICE, PRODUCT_NAME
-from FOOD_PRODUCT fp
-join (SELECT PRODUCT_ID, CATEGORY, max(price) as MAX_PRICE
-      from FOOD_PRODUCT
-      where category = '과자' or category = '국' or category = '김치' or category = '식용유'
-      group by CATEGORY) tmp
-on fp.CATEGORY = tmp.CATEGORY
-where price = tmp.max_price
-group by CATEGORY
-order by MAX_PRICE desc;
+SELECT category, price as max_price, product_name
+from food_product
+where price in (select max(price) from food_product group by category) and category in ('국', '과자', '김치', '식용유')
+group by category
+order by max_price desc;
+
